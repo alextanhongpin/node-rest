@@ -1,5 +1,10 @@
 # NodeJS with Babel
+Read more about Babel from [here](https://babeljs.io/).
+## Installation
 
+First, you have to install [Yarn](https://yarnpkg.com/lang/en/docs/install/).
+
+Then:
 ## Installation
 
 ```bash
@@ -18,6 +23,9 @@ $ yarn add <PACKAGE_NAME>
 $ yarn add --dev <PACKAGE_NAME>
 $ yarn remove <PACKAGE_NAME>
 ```
+
+# starting the docker image with MySQL DB.
+`docker-compose up -d`
 
 ## Start
 

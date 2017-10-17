@@ -1,0 +1,14 @@
+version: '3'
+services:
+  database:
+    image: mysql:8.0.3
+    restart: always
+    environment:
+    - MYSQL_ROOT_PASSWORD=admin-pass
+    - MYSQL_DATABASE=test-db
+    - MYSQL_USER=user
+    - MYSQL_PASSWORD=user-pass
+    volumes:
+    - ./data/mysql:/var/lib/mysql
+    ports:
+    - 3306:3306

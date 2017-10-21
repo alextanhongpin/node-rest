@@ -27,19 +27,19 @@ const config = convict({
     database: {
       doc: 'mysql database name',
       format: String,
-      default: '',
+      default: 'testdb',
       env: 'DB_NAME'
     },
     user: {
       doc: 'mysql database username',
       format: String,
-      default: '',
+      default: 'user',
       env: 'DB_USER'
     },
     password: {
       doc: 'mysql database password',
       format: String,
-      default: '',
+      default: '123456',
       env: 'DB_PASS'
     },
     port: {

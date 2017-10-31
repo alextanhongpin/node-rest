@@ -87,5 +87,3 @@ CREATE TABLE food (
 );
 ```
 
- curl -X POST -H "Content-Type: application/json" -d '{"id": {"name": 1}, "name": "donkey"}' http://localhost:5000/foods
- curl http://localhost:5000/foods

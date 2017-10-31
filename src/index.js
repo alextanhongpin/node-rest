@@ -9,18 +9,24 @@
 **/
 
 import express from 'express'
+import bodyParser from 'body-parser'
 import config from './config'
 import DB from './database'
 
+import Schema from './schema'
 import FoodService from './food-service'
 
 async function main () {
   const app = express()
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json())
+
   const db = await DB.connect(config.get('db'))
+  const schema = Schema()
 
   const services = [
     FoodService
-  ].map(service => service({ db }))
+  ].map(service => service({ db, schema }))
 
   // Initialize service by looping through them
   services.forEach((service) => {

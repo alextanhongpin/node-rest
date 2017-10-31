@@ -8,12 +8,20 @@
  * Copyright (c) 2017 alextanhongpin. All rights reserved.
 **/
 
-const FoodModel = (store) => {
+const FoodModel = ({ store, schema }) => {
   return {
     one: (id) => store.one(id),
     all: () => store.all(),
-    create: ({ id, name }) => store.create({ id, name })
+    async create ({ id, name }) {
+      const params = { id, name }
+      try {
+        const validatedParams = await schema('food', params)
+        return store.create(validatedParams)
+      } catch (error) {
+        return Promise.reject(error)
+      }
+    }
   }
 }
 
-export default (store) => FoodModel(store)
+export default (options) => FoodModel(options)

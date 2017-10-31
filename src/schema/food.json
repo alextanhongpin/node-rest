@@ -1,0 +1,22 @@
+{
+   "id":"http://json-schema.org/geo",
+   "$schema":"http://json-schema.org/draft-06/schema#",
+   "title":"Food",
+   "description":"A food data",
+   "type":"object",
+   "properties":{
+      "name":{
+         "type":"string",
+         "minLength": 3
+      },
+      "id":{
+         "description":"The unique if of the application",
+         "type":"integer",
+         "minimum":0
+      }
+   },
+   "required":[
+      "name",
+      "id"
+   ]
+}

@@ -6,12 +6,15 @@
     "start": "nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
-    "test": "mocha --require babel-register"
+    "test": "cross-env NODE_ENV=test node_modules/.bin/nyc --reporter=text mocha --recursive --watch test/**/*.js",
+    "cover": "cross-env NODE_ENV=test node_modules/.bin/nyc report --reporter=text-summary"
   },
   "repository": "https://github.com/alextanhongpin/node-rest.git",
   "author": "alextanhongpin <alextan220990@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^5.3.0",
+    "body-parser": "^1.18.2",
     "convict": "^4.0.1",
     "express": "^4.16.2",
     "mysql2": "^1.4.2",
@@ -19,13 +22,32 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-istanbul": "^4.1.5",
     "babel-preset-env": "^1.6.0",
-    "mocha": "^4.0.1"
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.1",
+    "mocha": "^4.0.1",
+    "nyc": "next"
   },
   "eslintConfig": {
     "env": {
       "node": true,
       "mocha": true
     }
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "**/test/**/*",
+      "packages/**/*"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "require": [
+      "babel-register"
+    ],
+    "all": false
   }
 }

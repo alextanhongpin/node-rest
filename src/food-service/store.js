@@ -20,7 +20,10 @@ const FoodStore = (db) => {
   }
 
   async function create ({ id, name }) {
-    return db.query('INSERT INTO food (id, name) VALUES (?, ?)', [id, name])
+    console.log('create', id, name)
+    const [rows] = await db.query('INSERT INTO food (id, name) VALUES (?, ?)', [id, name])
+    console.log('create, rows', rows)
+    return rows
   }
 
   return {

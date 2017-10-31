@@ -15,8 +15,11 @@ import FoodRoute from './route'
 import express from 'express'
 const router = express.Router()
 
-const FoodService = ({ db }) => {
-  const model = FoodModel(FoodStore(db))
+const FoodService = ({ db, schema }) => {
+  const model = FoodModel({
+    store: FoodStore(db),
+    schema
+  })
   const route = FoodRoute(model)
 
   router

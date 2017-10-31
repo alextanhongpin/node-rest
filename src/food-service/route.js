@@ -32,9 +32,9 @@ export default (model) => {
   async function getFoods (req, res) {
     try {
       const result = await model.all()
-      baseSuccessHandler(res)(result)
+      return baseSuccessHandler(res)(result)
     } catch (error) {
-      baseErrorHandler(res)(error)
+      return baseErrorHandler(res)(error)
     }
   }
 
@@ -42,14 +42,11 @@ export default (model) => {
   // Description: Create a new food, with id and name as body
   async function postFood (req, res) {
     try {
-      const request = {
-        id: 1,
-        name: 'apple'
-      }
-      const result = await model.create(request)
-      baseSuccessHandler(res)(result)
+      const result = await model.create(req.body)
+      console.log('foods', result)
+      return baseSuccessHandler(res)(result)
     } catch (error) {
-      baseErrorHandler(res)(error)
+      return baseErrorHandler(res)(error)
     }
   }
 

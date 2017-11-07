@@ -4,7 +4,7 @@ Read more about Babel from [here](https://babeljs.io/).
 
 ## Onion Architecture
 
-![Onion Architecture](./assets/onion_archtecture.png)
+![Onion Architecture](/assets/onion_architecture.png)
 
 The architecture is based on the principle of [Dependency Inversion](https://dzone.com/articles/perfecting-your-solid-meal-with-dip). There are layers wrapping around each circle, forming the famous *onion*. Between the layers of the Onion, there is a strong _dependency rule_: **outer layers can depend on lower layers, but no code in the lower layer can depend directly on any code in the outer layer**. 
 

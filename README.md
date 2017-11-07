@@ -1,5 +1,30 @@
 # NodeJS with Babel
+
 Read more about Babel from [here](https://babeljs.io/).
+
+## Onion Architecture
+
+![Onion Architecture](./assets/onion_archtecture.png)
+
+The architecture is based on the principle of [Dependency Inversion](https://dzone.com/articles/perfecting-your-solid-meal-with-dip). There are layers wrapping around each circle, forming the famous *onion*. Between the layers of the Onion, there is a strong _dependency rule_: **outer layers can depend on lower layers, but no code in the lower layer can depend directly on any code in the outer layer**. 
+
+Note that the database is not center, it is **external**. The moment you grasped this concept, you have grasped the onion architecture. 
+
+## .babelrc
+
+Here you can specify the version of nodejs that you want the code to compile to. Since we are using AWS Lambda, we want the code to compile to nodejs version `6.10` (7 November 2017). If you are not bounded by this limitation, always use the current version:
+
+```
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ]
+}
+```
 
 ## Installation
 

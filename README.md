@@ -2,6 +2,14 @@
 
 Read more about Babel from [here](https://babeljs.io/).
 
+## Clone
+
+```bash
+git clone https://github.com/alextanhongpin/node-rest.git
+git remote rm origin
+git remote add origin <your-git-path>
+```
+
 ## Onion Architecture
 
 ![Onion Architecture](/assets/onion_architecture.png)

@@ -9,6 +9,13 @@
 **/
 
 const FoodStore = (db) => {
+  // When calling external services, prefix the function with fetch
+  // e.g. When calling food service
+  // async function fetchFood () {
+  //  return request('http://localhost:3000/foods/1')
+  // }
+  
+  // one, all, create, update, delete, count, search is reserved for DB only operation
   async function one (id) {
     const [rows] = await db.query('SELECT * FROM food WHERE id = ?', [id])
     return (rows && rows[0]) || null

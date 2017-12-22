@@ -24,6 +24,12 @@ const config = convict({
       default: 'localhost',
       env: 'DB_HOST'
     },
+    pool: {
+      doc: 'MySQL connection pool limit',
+      format: Number,
+      default: 10,
+      env: 'DB_POOL'
+    },
     database: {
       doc: 'mysql database name',
       format: String,

@@ -10,25 +10,14 @@
 
 import mysql from 'mysql2/promise'
 
-async function connect ({ host, user, database, password, port }) {
-  const connection = await mysql.createConnection({
+async function connect ({ pool, host, user, database, password, port }) {
+  const connection = mysql.createPool({
+    connectionLimit: pool,
     host,
     user,
     database,
     password,
     port
-  })
-
-  connection.connect((error) => {
-    if (error) {
-      console.log(`databaseError: Connection error with code ${error.code} and message ${error.message}`)
-    } else {
-      console.log('databaseSuccess: connected to mysql database')
-    }
-  })
-
-  connection.on('error', (error) => {
-    console.log('databaseError:', error)
   })
 
   return connection

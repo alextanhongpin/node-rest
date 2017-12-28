@@ -14,7 +14,7 @@ export function Failure (res) {
       code,
       error: message
     }
-    return res.status(400).json(data)
+    res.status(400).json(data)
   }
 }
 
@@ -23,6 +23,6 @@ export function Ok (res) {
     const data = {
       data: body
     }
-    return res.status(200).json(data)
+    res.status(200).json(data)
   }
 }

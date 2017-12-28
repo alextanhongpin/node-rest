@@ -4,26 +4,22 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * Created by Alex Tan Hong Pin 17/10/2017
+ * Created by Alex Tan Hong Pin 28/12/2017
  * Copyright (c) 2017 alextanhongpin. All rights reserved.
 **/
 
 import config from '../config'
+import { Ok, Failure } from '../helper'
 
-import { baseErrorHandler, baseSuccessHandler } from '../helper'
-
-export default (model) => {
+export default function Route (model) {
   // GET /foods/:id
   // Description: Get food by id
   async function getFood (req, res) {
     try {
-      const request = {
-        id: req.params.id
-      }
-      const result = await model.one(request)
-      baseSuccessHandler(res)(result)
+      const result = await model.one(req.params)
+      Ok(res)(result)
     } catch (error) {
-      baseErrorHandler(res)(error)
+      Failure(res)(error)
     }
   }
 
@@ -32,9 +28,9 @@ export default (model) => {
   async function getFoods (req, res) {
     try {
       const result = await model.all()
-      return baseSuccessHandler(res)(result)
+      Ok(res)(result)
     } catch (error) {
-      return baseErrorHandler(res)(error)
+      Failure(res)(error)
     }
   }
 
@@ -43,20 +39,20 @@ export default (model) => {
   async function postFood (req, res) {
     try {
       const result = await model.create(req.body)
-      console.log('foods', result)
-      return baseSuccessHandler(res)(result)
+      Ok(res)(result)
     } catch (error) {
-      return baseErrorHandler(res)(error)
+      Failure(res)(error)
     }
   }
 
+  // POST /toggle
   async function featureToggle (req, res, next) {
     if (config.get('service.food')) {
       return next()
     }
-    return res.status(404).json({
-      error: 'The endpoint is not implemented',
-      code: 404
+    Failure({
+      message: 'Not implemented',
+      code: 501
     })
   }
 

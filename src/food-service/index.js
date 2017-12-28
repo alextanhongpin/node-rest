@@ -4,29 +4,27 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * Created by Alex Tan Hong Pin 17/10/2017
+ * Created by Alex Tan Hong Pin 28/12/2017
  * Copyright (c) 2017 alextanhongpin. All rights reserved.
 **/
 
-import FoodStore from './store'
-import FoodModel from './model'
-import FoodRoute from './route'
+import Store from './store'
+import Model from './model'
+import Route from './route'
 
 import express from 'express'
 const router = express.Router()
 
-const FoodService = ({ db, schema }) => {
-  const model = FoodModel({
-    store: FoodStore(db),
-    schema
-  })
-  const route = FoodRoute(model)
+function Service ({ db, schema }) {
+  const store = Store(db)
+  const model = Model({ store, schema })
+  const route = Route(model)
 
   router
-  .use(route.featureToggle)
-  .get('/', route.getFoods)
-  .get('/:id', route.getFood)
-  .post('/', route.postFood)
+    .use(route.featureToggle)
+    .get('/', route.getFoods)
+    .get('/:id', route.getFood)
+    .post('/', route.postFood)
 
   return router
 }
@@ -54,6 +52,6 @@ export default (options) => {
         }
       }
     },
-    route: FoodService(options)
+    route: Service(options)
   }
 }

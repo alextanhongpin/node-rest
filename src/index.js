@@ -17,17 +17,29 @@ import DB from './database'
 import Schema from './schema'
 import FoodService from './food-service'
 
+// main is where our application resides
 async function main () {
+  // Create a new application
   const app = express()
+
+  // Middlewares
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+
+  // Host the schemas as static file
   app.use('/schemas', express.static(path.join(__dirname, 'schema')))
 
+  // Initialize dependencies
   const db = await DB.connect(config.get('db'))
   const schema = Schema()
 
   const services = [
     FoodService
+    // Would make much more sense when you have multiple services
+    // in the same application. e.g.
+    // ServiceA
+    // ServiceB
+    // ServiceC
   ].map(service => service({ db, schema }))
 
   // Initialize service by looping through them

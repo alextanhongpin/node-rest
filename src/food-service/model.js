@@ -4,24 +4,26 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * Created by Alex Tan Hong Pin 17/10/2017
+ * Created by Alex Tan Hong Pin 28/12/2017
  * Copyright (c) 2017 alextanhongpin. All rights reserved.
 **/
 
-const FoodModel = ({ store, schema }) => {
+export default function Model ({ store, schema }) {
   return {
-    one: (id) => store.one(id),
-    all: () => store.all(),
+    async one (id) {
+      return store.one(id)
+    },
+    async all () {
+      return store.all()
+    },
     async create ({ id, name }) {
       const params = { id, name }
-      try {
-        const validatedParams = await schema('food', params)
-        return store.create(validatedParams)
-      } catch (error) {
-        return Promise.reject(error)
-      }
+
+      // Perform validation of request schema here
+      const validatedParams = await schema('food', params)
+
+      // Call store with the validated params
+      return store.create(validatedParams)
     }
   }
 }
-
-export default (options) => FoodModel(options)

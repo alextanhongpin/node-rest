@@ -10,58 +10,21 @@
 
 import convict from 'convict'
 
+import DB from './database'
+import FOOD_SERVICE from './food-service'
+
+const PORT = {
+  doc: 'The port to bind',
+  format: 'port',
+  default: process.env.PORT,
+  env: 'PORT'
+}
+
 const config = convict({
-  port: {
-    doc: 'The port to bind',
-    format: 'port',
-    default: process.env.PORT,
-    env: 'PORT'
-  },
-  db: {
-    host: {
-      doc: 'mysql database hostname',
-      format: String,
-      default: 'localhost',
-      env: 'DB_HOST'
-    },
-    pool: {
-      doc: 'MySQL connection pool limit',
-      format: Number,
-      default: 10,
-      env: 'DB_POOL'
-    },
-    database: {
-      doc: 'mysql database name',
-      format: String,
-      default: 'testdb',
-      env: 'DB_NAME'
-    },
-    user: {
-      doc: 'mysql database username',
-      format: String,
-      default: 'user',
-      env: 'DB_USER'
-    },
-    password: {
-      doc: 'mysql database password',
-      format: String,
-      default: '123456',
-      env: 'DB_PASS'
-    },
-    port: {
-      doc: 'mysql database port',
-      format: 'port',
-      default: '3306',
-      env: 'DB_PORT'
-    }
-  },
+  port: PORT,
+  db: DB,
   service: {
-    food: {
-      doc: 'Feature toggle for food service',
-      format: Boolean,
-      default: true,
-      env: 'FOOD_SERVICE'
-    }
+    food: FOOD_SERVICE
   }
 })
 

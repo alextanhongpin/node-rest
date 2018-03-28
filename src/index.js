@@ -11,6 +11,8 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
+import helmet from 'helmet'
+import morgan from 'morgan'
 
 import config from './config'
 import DB from './database'
@@ -25,6 +27,19 @@ async function main () {
   // Middlewares
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+  app.use(helmet())
+  app.use(morgan('dev', {
+    skip(req, res) {
+      return res.statusCode < 400
+    },
+    stream: process.stderr
+  }))
+  app.use(morgan('dev', {
+    skip(req, res) {
+      return res.statusCode >= 400
+    },
+    stream: process.stdout
+  }))
 
   // Host the schemas as static file
   app.use('/schemas', express.static(path.join(__dirname, 'schema')))

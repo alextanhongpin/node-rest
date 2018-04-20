@@ -9,7 +9,7 @@
 **/
 
 import config from '../config'
-import { Ok, Failure } from '../helper'
+import { Ok, Err } from '../helper'
 
 export default function Route (model) {
   // GET /foods/:id
@@ -19,7 +19,7 @@ export default function Route (model) {
       const result = await model.one(req.params)
       Ok(res)(result)
     } catch (error) {
-      Failure(res)(error)
+      Err(res)(error)
     }
   }
 
@@ -30,7 +30,7 @@ export default function Route (model) {
       const result = await model.all()
       Ok(res)(result)
     } catch (error) {
-      Failure(res)(error)
+      Err(res)(error)
     }
   }
 
@@ -41,7 +41,7 @@ export default function Route (model) {
       const result = await model.create(req.body)
       Ok(res)(result)
     } catch (error) {
-      Failure(res)(error)
+      Err(res)(error)
     }
   }
 
@@ -50,7 +50,7 @@ export default function Route (model) {
     if (config.get('service.food')) {
       return next()
     }
-    Failure({
+    Err({
       message: 'Not implemented',
       code: 501
     })

@@ -19,6 +19,9 @@ import DB from './database'
 import Schema from './schema'
 import FoodService from './food-service'
 
+// Schemas
+import FoodSchema from './schema/food.json'
+
 // main is where our application resides
 async function main () {
   // Create a new application
@@ -47,6 +50,7 @@ async function main () {
   // Initialize dependencies
   const db = await DB.connect(config.get('db'))
   const schema = Schema()
+  schema.add('food', FoodSchema)
 
   const services = [
     FoodService

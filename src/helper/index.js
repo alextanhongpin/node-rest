@@ -8,7 +8,7 @@
  * Copyright (c) 2017 alextanhongpin. All rights reserved.
 **/
 
-export function Failure (res) {
+export function Err (res) {
   return ({ message, code }) => {
     const data = {
       code,

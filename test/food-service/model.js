@@ -14,15 +14,18 @@ import chai from 'chai'
 import MockFoodStore from './mock-store'
 import FoodModel from '../../src/food-service/model'
 import Schema from '../../src/schema'
+import FoodSchema from '../../src/schema/food.json'
 
 const expect = chai.expect
 
+const schema = Schema()
+schema.add('food', FoodSchema)
+
 // In our test, we mock the store and only validate the model
 // The route and store should not contain any business logic
-const schema = Schema()
 const model = FoodModel({
   store: MockFoodStore(),
-  schema: Schema()
+  schema
 })
 
 describe('Food Model', () => {
@@ -53,8 +56,8 @@ describe('Food Model', () => {
       await model.create(newFood)
     } catch (error) {
       expect(error).to.be.not.eq(null)
-      expect(error.message).to.be.an('array')
-      expect(error.message[0].message).to.be.eq('should be integer')
+      expect(error).to.be.an('array')
+      expect(error[0].message).to.be.eq('should be integer')
     }
   })
 })

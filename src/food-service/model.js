@@ -22,7 +22,7 @@ export default function Model ({ store, schema }) {
     const params = { id, name }
 
     // Perform validation of request schema here
-    const validatedParams = await schema('food', params)
+    const validatedParams = await schema.validate('food', params)
 
     // Call store with the validated params
     return store.create(validatedParams)

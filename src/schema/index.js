@@ -8,9 +8,8 @@
  * Copyright (c) 2017 alextanhongpin. All rights reserved.
 **/
 
-import foodSchema from './food.json'
-
 import Ajv from 'ajv'
+import request from 'request-promise'
 
 const Schema = () => {
   const ajv = new Ajv({
@@ -19,24 +18,41 @@ const Schema = () => {
     coerceTypes: true // Convert the type to the specified type (e.g. string to int)
   })
 
-  const _schemas = {
-    // Load all your schemas here
-    food: ajv.compile(foodSchema)
-  }
+  const schemas = {}
 
-  return async(name, payload) => {
-    const schema = _schemas[name] ? _schemas[name] : null
-    if (!schema) {
-      throw new Error(`No schema with the name ${name} found`)
+
+  return {
+    add (name, schema) {
+      const hasName = name && name.trim().length
+      if (!hasName || !schema) {
+        throw new Error('schemaError: name and schema must be provided')
+      }
+      schemas[name] = ajv.compile(schema)
+    },
+    async validate (name, params) {
+      const schema = schemas[name]
+      if (!schema) {
+        return Promise.reject(new Error(`schema ${name} does not exist`))
+      }
+      const validate = schema(params)
+      if (!validate) {
+        return Promise.reject(schema.errors)
+      }
+      return params
+    },
+
+    // Load the schema from a uri
+    async addFromUrl (name, uri) {
+      const schema = await request({
+        uri,
+        json: true
+      })
+      schemas[name] = ajv.compile(schema)
+      return true
     }
-    const valid = schema(payload)
-    if (!valid) {
-      const error = new Error('Invalid Schema')
-      error.message = schema.errors
-      throw error
-    }
-    return payload
   }
 }
+
+
 
 export default Schema

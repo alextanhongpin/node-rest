@@ -15,8 +15,12 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 
 import config from './config'
-import DB from './database'
+
+// Infra
+import Database from './database'
 import Schema from './schema'
+
+// Services
 import FoodService from './food-service'
 
 // Schemas
@@ -26,6 +30,9 @@ import FoodSchema from './schema/food.json'
 async function main () {
   // Create a new application
   const app = express()
+  const schema = Schema()
+
+  schema.add('food', FoodSchema)
 
   // Middlewares
   middlewares(app)
@@ -34,9 +41,7 @@ async function main () {
   app.use('/schemas', express.static(path.join(__dirname, 'schema')))
 
   // Initialize dependencies
-  const db = await DB.connect(config.get('db'))
-  const schema = Schema()
-  schema.add('food', FoodSchema)
+  const db = await Database(config.get('db'))
 
   const services = [
     FoodService
@@ -46,6 +51,7 @@ async function main () {
     // ServiceB
     // ServiceC
   ].map(service => service({ db, schema }))
+  // Else, const foodService = FoodService({ db, schema })
 
   // Initialize service by looping through them
   services.forEach((service) => {
@@ -59,7 +65,7 @@ async function main () {
     })
   })
 
-  // This is a naive example, but you can create an endpoint to toggle the services (on/off)
+  // NOTE: This is a naive example, but you can create an endpoint to toggle the services (on/off)
   // app.get('/toggle', (req, res) => {
   //   const on = config.get('service.food')
   //   config.set('service.food', !on)
@@ -67,6 +73,10 @@ async function main () {
   //     on
   //   })
   // })
+  
+  // NOTE: It is always a good practice to have a health endpoint that checks every dependency you
+  // have, such as databases/redis connection. It can be a simple PING to the database.
+  // app.get('/health', function () {...})
 
   app.listen(config.get('port'), () => {
     console.log(`listening to port *:${config.get('port')}. press ctrl + c to cancel`)

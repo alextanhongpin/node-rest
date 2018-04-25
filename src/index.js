@@ -28,22 +28,8 @@ async function main () {
   const app = express()
 
   // Middlewares
-  app.use(bodyParser.urlencoded({ extended: false }))
-  app.use(bodyParser.json())
-  app.use(helmet())
-  app.use(morgan('dev', {
-    skip(req, res) {
-      return res.statusCode < 400
-    },
-    stream: process.stderr
-  }))
-  app.use(morgan('dev', {
-    skip(req, res) {
-      return res.statusCode >= 400
-    },
-    stream: process.stdout
-  }))
-
+  middlewares(app)
+  
   // Host the schemas as static file
   app.use('/schemas', express.static(path.join(__dirname, 'schema')))
 
@@ -87,6 +73,31 @@ async function main () {
   })
 
   return app
+}
+
+// middlewares takes the app, and inject the app with middlewares
+function middlewares (app) {
+app.use(bodyParser.urlencoded({ extended: false }))
+  // To parse json
+  app.use(bodyParser.json())
+  
+  // For security
+  app.use(helmet())
+  
+  // Enable logging during development
+  app.use(morgan('dev', {
+    skip(req, res) {
+      return res.statusCode < 400
+    },
+    stream: process.stderr
+  }))
+
+  app.use(morgan('dev', {
+    skip(req, res) {
+      return res.statusCode >= 400
+    },
+    stream: process.stdout
+  }))
 }
 
 main().catch(console.log)

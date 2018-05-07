@@ -112,6 +112,13 @@ $ yarn cover
 $ yarn build
 ```
 
+## Accessing Docker MySQL
+
+```bash
+$ docker exec -it $(docker ps -f name=database -q) mysql -u user -p
+Enter password: 123456
+```
+
 ## Create a Table
 
 ```sql
@@ -122,3 +129,29 @@ CREATE TABLE food (
 );
 ```
 
+
+## Profiling
+
+Build a production release first:
+
+```bash
+$ yarn build
+```
+
+Enable profiling:
+
+```bash
+NODE_ENV=production node --prof app.js
+```
+
+Put some load on the server using `ab` (Apache Bench):
+
+```bash
+$ ab -k -c 20 -n 250 "http://localhost:5000/foods"
+```
+
+Process:
+
+```bash
+$ node --prof-process isolate-0x103800000-v8.log > processed.txt
+```

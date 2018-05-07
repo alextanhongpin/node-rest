@@ -6,7 +6,7 @@
     "start": "nodemon dist/index.js",
     "dev": "nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist --copy-files",
-    "serve": "node dist/index.js",
+    "serve": "NODE_ENV=production node --prof dist/index.js",
     "test": "cross-env NODE_ENV=test node_modules/.bin/nyc --reporter=text mocha --recursive",
     "test-dev": "cross-env NODE_ENV=test node_modules/.bin/nyc --reporter=text mocha --recursive --watch test/**/*.js",
     "cover": "cross-env NODE_ENV=test node_modules/.bin/nyc report --reporter=text-summary"

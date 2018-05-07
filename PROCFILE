@@ -1,1 +1,3 @@
 web: npm run dev
+# Uncomment this to run profiling on production build
+# prod: yarn serve

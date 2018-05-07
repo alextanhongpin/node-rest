@@ -4,3 +4,6 @@ dist
 data
 .nyc_output
 coverage
+*.log
+processed.txt
+.DS_Store
